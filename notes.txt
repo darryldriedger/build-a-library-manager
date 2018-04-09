@@ -1,0 +1,145 @@
+use library.db as the source of your data
+
+install sequalize
+
+inegrate 3 tables into the library.db
+
+home screen with links
+
+Use pug for rendering pages
+
+navigation links menu bar
+
+filtering on the books pages
+
+adding books and information
+
+validation of form information
+
+redirect after updating a form
+
+be able to edit the books detail pages
+
+**********
+
+extra credit //
+pagination for the books and loans pages
+
+include search fields (case insensitive and allow for partial matches)
+
+
+
+
+
+/* {
+  "development": {
+    "username": "root",
+    "password": null,
+    "database": "database_development",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "database_production",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+} */
+
+
+{
+  "development": {
+    "storage": "library.db",
+    "dialect": "sqlite"
+  },
+  "test": {
+    "storage": "test.db",
+    "dialect": "sqlite"
+  },
+  "production": {
+    "storage": "production.db",
+    "dialect": "sqlite"
+  }
+}
+
+{
+  "development": {
+    "username": "root",
+    "password": "snacktimusprime",
+    "database": "librarydev",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": "snacktimusprime",
+    "database": "librarytst",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": "snacktimusprime",
+    "database": "libraryprod",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
+
+
+------------------------------
+
+var createError = require('http-errors');
+var express = require('express');
+var path = require('path');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
+
+var routes = require('./routes/index');
+
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
+
+var app = express();
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
+
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
+// app.use('/', indexRouter);
+// app.use('/users', usersRouter);
+app.use('/', routes);
+// app.use('/users', usersRouter);
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
+});
+
+// error handler
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
+});
+
+module.exports = app;
